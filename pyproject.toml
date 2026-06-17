@@ -1,0 +1,38 @@
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "speculative-decoding"
+version = "0.1.0"
+description = "Speculative decoding as a composable inference-engine wrapper"
+requires-python = ">=3.12"
+dependencies = [
+    "torch>=2.4",
+    "transformers>=4.40",
+    "numpy>=2.0",
+    "matplotlib>=3.9",
+    "tqdm>=4.66",
+]
+
+[project.scripts]
+benchmark = "speculative_decoding.benchmark:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/speculative_decoding"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = ["--strict-markers", "--strict-config", "-v"]
+markers = [
+    "slow: marks tests requiring HF model downloads",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP", "B", "SIM"]
